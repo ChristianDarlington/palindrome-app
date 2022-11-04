@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import './App.css';
 
+
 function App() {
+
+  const [success, setSuccess] = useState(false)
+  const [fail, setFail] = useState(false)
 
   let palendrome = []
   let input;
@@ -12,15 +16,43 @@ function App() {
   }
 
   const reverseWord = (value) => {
-    for (let i = value.length - 1; i > -1; i--) {
+    for (let i = value.length - 1 ; i > -1; i--) {
       const elem = value[i];
-      console.log(elem)
-      palendrome.push()
+      palendrome.push(elem)
+    }
+  }
+
+  const concatWord = () => {
+    palendrome = palendrome.join('')
+  }
+
+  const confirmMatch = () => {
+    if(input === palendrome){
+      setSuccess(true)
+      return 
+    } 
+      setFail(true)
+  }
+
+
+  const clearPalendrome = () => {
+    palendrome = []
+  }
+
+
+  const resetForm = () => {
+    if(fail || success) {
+      setSuccess(false)
+      setFail(false)
     }
   }
 
   const checkIfPalindrome = (value) => {
+    resetForm()
     reverseWord(value)
+    concatWord()
+    confirmMatch()
+    clearPalendrome()
   }
 
   return (
@@ -30,7 +62,8 @@ function App() {
         <input type='text' onChange={(e) => handleInput(e)}/>
        <button onClick={() => checkIfPalindrome(input)}>Submit </button>
       </div>
-         <div>yaaay!!</div>
+         {success && <div className='success'>That's a Palindrome</div>}
+         {fail && <div className='fail'>That's not a Palindrome</div>}  
       </div>
     </div>
   );
